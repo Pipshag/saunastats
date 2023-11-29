@@ -18,6 +18,8 @@ class SaunaStatistics
 
     protected $client;
 
+    public $stats;
+
     public function __construct()
     {
 
@@ -87,14 +89,13 @@ class SaunaStatistics
                     if ($rotation->timeStamp > strtotime('1 hour ago') * 1000) {
                         $this->stats->visitors->batherslastHour++;
                     }
-                } else {
-                    $this->stats->visitors->bathersRemaining++;
                 }
                 $this->last = $rotation->numTurns;
             }
 
-            // Calculate remaining bathers
-            $this->stats->visitors->bathersRemaining = ($this->stats->visitors->bathersToday - $this->stats->visitors->bathersRemaining);
+            // Get remaining bathers
+            // $lastnumTurns = end($turnStiles->payload->trace)->numTurns;
+            $this->stats->visitors->bathersRemaining = end($turnStiles->payload->trace)->numTurns;
 
         } catch (\Throwable $th) {
             print_r($th);
